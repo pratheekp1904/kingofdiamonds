@@ -56,7 +56,7 @@ def checkElimination():
 # Display Rules
 def popuprule(rules):
     displayRules = [
-        'Players needs to choose a number between zero and 100. The average of the numbers everyone selected is multiplied by 0.8. The person who chose the number closest to that result is the winner. One point will be deducted from the remaining players, and the round is concluded. When a player reaches negative ten points, they will receive a game over. However, every time a player is eliminated, a new rule is added.',
+        'Players needs to choose a number between zero and 100. The average of the numbers everyone selected is multiplied by 0.8. The person who chose the number closest to that result is the winner. One point will be deducted from the remaining players, and the round is concluded. When a player reaches negative ten points, they will receive a game over. The last player standing will clear the game. However, every time a player is eliminated, a new rule is added.',
         'If two or more players choose the same number, they will be disqualified from the round and will each lose one point.',
         'Choosing the exact correct number will cause the other players to lose two points instead of one.',
         'If a player chooses zero as their number, the other player will win if they choose 100.'
@@ -206,6 +206,7 @@ def game():
         if len(st.session_state['player']) > 1:
             # Streamlit app layout
             st.write('<center> <h1> <span style="color: #F30B0B;">KING OF DIAMONDS ♦</span> </h1> </center>', unsafe_allow_html=True)
+            st.write('<center> <h3> <span style="color: #F30B0B;">GAME OF AVERAGES</span> </h3> </center>', unsafe_allow_html=True)
             if prules != rules:
                 popuprule(rules)
                 prules = rules
@@ -214,15 +215,8 @@ def game():
             if not st.session_state['player']:
                 st.write('<center> <h1> <span style="color: #F71E1E;">EVERYBODY DIED!!!</span> </h1> </center>', unsafe_allow_html=True)
                 st.write('<center> <h1> <span style="color: #F71E1E;">NO WINNER!!!</span> </h1> </center>', unsafe_allow_html=True)
-            elif st.session_state['king'] in st.session_state['player'].keys():
-                st.write('<center> <h1> <span style="color: #E9F43D;">KING WON!!!</span> </h1> </center>', unsafe_allow_html=True)
-                st.write('<center> <h1> <span style="color: #F71E1E;">GAME OVER!!!</span> </h1> </center>', unsafe_allow_html=True)
-            elif len(st.session_state['player']) > 1:
-                st.write('<center> <h1> <span style="color: #E9F43D;">KING DIED!!! GAME CLEARED!!!</span> </h1> </center>', unsafe_allow_html=True)
-                st.write(f'<center> <h1> <span style="color: #54EE4F;">WINNERS: {list(st.session_state["player"].keys())}</span> </h1> </center>', unsafe_allow_html=True)
-                st.write('<center> <h1> <span style="color: #065B31;">CONGRATULATIONS!!!</span> </h1> </center>', unsafe_allow_html=True)
             else:
-                st.write('<center> <h1> <span style="color: #E9F43D;">KING DIED!!! GAME CLEARED!!!</span> </h1> </center>', unsafe_allow_html=True)
+                st.write('<center> <h1> <span style="color: #E9F43D;">GAME CLEARED!!!</span> </h1> </center>', unsafe_allow_html=True)
                 st.write(f'<center> <h1> <span style="color: #54EE4F;">WINNER: {list(st.session_state["player"].keys())[0]}</span> </h1> </center>', unsafe_allow_html=True)
                 st.write('<center> <h1> <span style="color: #065B31;">CONGRATULATIONS!!!</span> </h1> </center>', unsafe_allow_html=True)
 
@@ -250,7 +244,7 @@ def game():
 
         if st.session_state.numbers_submitted:
             if st.button("View Results"):
-                if len(st.session_state['player']) > 1 and st.session_state['king'] in st.session_state['player'].keys():
+                if len(st.session_state['player']) > 1:
                     st.write(f'<center> <span style="color: #7759DF;">ROUND: {st.session_state["roundNumber"]}</span> </center>', unsafe_allow_html=True)
 
                     # Collect the chosen numbers into numberChosen in session state
